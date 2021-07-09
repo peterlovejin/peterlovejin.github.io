@@ -1,0 +1,152 @@
+---
+title: "stock_main_source_20210709"
+author: "Peter Lin"
+date: "2021/7/9"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{css, echo = FALSE}
+caption {
+      color: red;
+      font-weight: bold;
+      font-size: 2.0em;
+    }
+```
+
+
+
+### 提取網路資料
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=6}
+
+setwd("c:/r")
+
+library(knitr)
+library(kableExtra)
+
+library(tidyverse)
+library(rvest)
+library(stringr)
+
+full=NULL
+
+
+my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929","4903")
+
+
+
+tryCatch(  for (i in my){
+wp=NULL
+page=NULL
+wp1=NULL
+wp2=NULL
+stake=NULL
+date=NULL
+tmp=NULL
+
+Sys.sleep(1)
+
+url=paste0("https://tw.stock.yahoo.com/d/s/major_",i,".html")
+page=url %>% read_html(encoding="BIG5")
+
+wp=page%>%html_nodes("table")%>%html_nodes("td") %>%html_text()
+
+wp1=str_squish(wp)
+wp2=wp1[16:135] 
+stake=str_extract(wp1[1],"[\\w]+")
+date=str_remove_all(str_extract(wp1[5],"[0-9/ ]+")," ")
+name=wp2[seq(1,120,4)]
+buy=as.integer(wp2[seq(2,120,4)])
+sell=as.integer(wp2[seq(3,120,4)])
+total=as.integer(wp2[seq(4,120,4)])
+tmp=data.frame(stake,date,name,buy,sell,total)
+full=rbind(tmp,full)
+},warning = function(war){
+  print(paste("MY_WARNING:  ",war)) #如果有warning則輸出warning,"MY_WARNING:  "這一行可以自己改
+},error = function(err) {
+  print(paste("MY_ERROR:  ",err))   #如果有error則輸出error,"MY_Error:  "這一行可以自己改
+},finally = {
+  print(paste("End Try&Catch")) #最後一定要執行的指令或輸出
+})
+
+ 
+ 
+dd=str_replace_all(unique(date),"/","-")
+
+write.csv(full,paste0("stack_",dd,".csv"))
+ 
+ 
+
+full %>% group_by(stake) %>% summarise(t=sum(total))
+
+
+#bb=read.csv("stack_110-07-07.csv") 
+ 
+
+#f2=read.csv("D:/test2/rhandsontable/vignettes/stack_110-07-06.csv")
+
+ 
+ 
+#aa=rbind(full,f2[,-1],bb[,-1])
+
+
+full %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=dd) %>%
+  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=22) %>%
+  column_spec(1:2,width="5cm")
+
+library(DT)
+ 
+
+yes=read.csv("stack_update.csv")
+
+
+aa=rbind(full,yes[,-1])
+
+
+na.omit(aa) %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arrange(stake,-t)%>% datatable(options = list(autoWidth=T,
+  columnDefs = list(list(width = '100px',className = 'dt-center', targets = '_all'))))
+
+
+
+```
+
+ 
+
+### plot
+ 
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=18}
+
+
+
+aa=na.omit(aa)
+
+j=unique(aa$stake)
+
+
+
+for (x in j){
+  
+  print(aa %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x)+theme_grey()+theme(legend.position = "none")
+)
+}
+
+
+ 
+ 
+
+
+
+```
+
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=6}
+
+
+
+
+
+
+```
