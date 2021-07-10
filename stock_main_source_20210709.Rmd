@@ -101,8 +101,8 @@ write.csv(full,paste0("stack_",dd,".csv"))
 
 
 na.omit(full) %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=dd) %>%
-  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=24) %>%
-  column_spec(1:2,width="4cm")
+  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=20) %>%
+  column_spec(1:2,width="3.5cm")
 
 
 
@@ -177,7 +177,6 @@ library(lubridate)
 ---------------------------------------------------------------------
 
 
-### flip plot
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
 
@@ -202,7 +201,7 @@ print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),t
 ---------------------------------------------------------------------
 
 
-### 累計
+### 2021/7/6累計至今
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
 
@@ -210,10 +209,32 @@ library(kableExtra)
  
 
 aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(aa$date),"~",max(aa$date))) %>%
-  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=24) %>%
-  column_spec(1:2,width="4cm")
+  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=20) %>%
+  column_spec(1:2,width="3.5cm")
 
  
+  
+
+
+
+```
+
+
+
+
+----------------------------------------------------------------
+
+---------------------------------------------------------------- 
+
+
+
+### 累計主力top 5買賣分析
+
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+
+
+
  
 
 aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake,date)%>%top_n(5,total)) 
@@ -246,3 +267,11 @@ print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=
 
 
 ```
+
+
+
+
+
+
+
+
