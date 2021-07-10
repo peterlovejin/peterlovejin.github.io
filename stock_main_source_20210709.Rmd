@@ -8,7 +8,7 @@ editor_options:
 ---
 
 
-```{css, echo = FALSE}
+```{css,echo = FALSE}
 caption {
       color: red;
       font-weight: bold;
@@ -20,9 +20,11 @@ caption {
 
 ### 提取網路資料
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=6}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=12}
 
-setwd("c:/r")
+
+
+setwd("/home/peter/mygit/peterlovejin.github.io")
 
 library(knitr)
 library(kableExtra)
@@ -68,9 +70,12 @@ full=rbind(tmp,full)
   print(paste("MY_WARNING:  ",war)) #如果有warning則輸出warning,"MY_WARNING:  "這一行可以自己改
 },error = function(err) {
   print(paste("MY_ERROR:  ",err))   #如果有error則輸出error,"MY_Error:  "這一行可以自己改
-},finally = {
-  print(paste("End Try&Catch")) #最後一定要執行的指令或輸出
-})
+}
+# ,finally = {
+#   print(paste("End Try&Catch")) #最後一定要執行的指令或輸出
+# }
+
+)
 
  
  
@@ -80,7 +85,7 @@ write.csv(full,paste0("stack_",dd,".csv"))
  
  
 
-full %>% group_by(stake) %>% summarise(t=sum(total))
+#full %>% group_by(stake) %>% summarise(t=sum(total))
 
 
 #bb=read.csv("stack_110-07-07.csv") 
@@ -94,19 +99,24 @@ full %>% group_by(stake) %>% summarise(t=sum(total))
 
 
 full %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=dd) %>%
-  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=22) %>%
-  column_spec(1:2,width="5cm")
+  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=24) %>%
+  column_spec(1:2,width="4cm")
 
 library(DT)
  
+ 
 
-yes=read.csv("stack_update.csv")
+yes=read.csv("stack_update.csv",encoding = "BIG5")
 
+ 
 
 aa=rbind(full,yes[,-1])
 
 
-na.omit(aa) %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arrange(stake,-t)%>% datatable(options = list(autoWidth=T,
+aa=na.omit(aa)
+aa$date=str_sub(aa$date,5,10)
+
+aa %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arrange(stake,-t)%>% datatable(options = list(autoWidth=T,
   columnDefs = list(list(width = '100px',className = 'dt-center', targets = '_all'))))
 
 
@@ -119,17 +129,19 @@ na.omit(aa) %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(sta
  
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=18}
 
+library(lubridate)
 
 
-aa=na.omit(aa)
 
 j=unique(aa$stake)
 
 
 
+
+
 for (x in j){
   
-  print(aa %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x)+theme_grey()+theme(legend.position = "none")
+  print(aa %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x) +theme(legend.position = "none")
 )
 }
 
