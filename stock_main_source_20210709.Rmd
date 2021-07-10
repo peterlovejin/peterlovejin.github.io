@@ -18,9 +18,9 @@ caption {
 
 
 
-### 提取網路資料
+### 當日
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=12}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=6}
 
 
 
@@ -37,6 +37,8 @@ full=NULL
 
 
 my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929","4903")
+
+
 
 
 
@@ -110,6 +112,11 @@ yes=read.csv("stack_update.csv",encoding = "BIG5")
 
  
 
+library(tidyverse)
+
+ 
+ 
+
 aa=rbind(full,yes[,-1])
 
 
@@ -123,39 +130,100 @@ aa %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arr
 
 ```
 
- 
 
-### plot
+--------------------------------------------------------------------- 
+
+### 當日主力top 5
  
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=18}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=9}
 
 library(lubridate)
 
-
-
-j=unique(aa$stake)
-
-
-
-
-
-for (x in j){
-  
-  print(aa %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x) +theme(legend.position = "none")
-)
-}
-
-
- 
- 
+# 
+# 
+# j=unique(full$stake)
+# 
+# 
+# 
+# 
+# 
+# for (x in j){
+#   
+#   print(full %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x) +theme(legend.position = "none")
+# )
+# }
 
 
 
 ```
 
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=6}
+---------------------------------------------------------------------
 
+
+### flipflop
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+
+
+full1=na.omit(full) 
+j=unique(full$stake)
+
+for (x in j){
+
+print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),total,fill=ifelse(total>0,"blue","red")),stat="identity",position = "dodge")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+labs(title=paste(x,"@",dd),y="",x="") +theme(legend.position = "none")+coord_flip()) }
+
+
+```
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+### 累計
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+
+library(kableExtra)
+ 
+
+aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(aa$date),"~",max(aa$date))) %>%
+  kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=24) %>%
+  column_spec(1:2,width="4cm")
+
+ 
+ 
+
+aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake,date)%>%top_n(5,total)) 
+ 
+
+# 
+# 
+# j=unique(aa2$stake)
+# 
+# 
+# 
+# for (x in j){
+#   
+#   print(aa2 %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x) +theme(legend.position = "none"))
+# }
+
+start_d=min(aa2$date)
+end_d=max(aa2$date)
+
+aa3=aa2 %>% group_by(stake,name) %>% summarise(t=sum(total))
+
+j=unique(aa3$stake) 
+
+for (x in j){
+
+print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=ifelse(t>0,"blue","red")),stat="identity",position = "dodge")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+labs(title=paste(x,"@",start_d,"~",end_d,y="",x="")) +theme(legend.position = "none")+coord_flip()) }
 
 
 
