@@ -127,14 +127,19 @@ yes=read.csv("stack_update.csv",encoding = "BIG5")
 
 library(tidyverse)
 
+full$date=str_sub(full$date,5,10)
+yes$date=str_sub(yes$date,5,10)
  
  
 
 aa=rbind(full,yes[,-1])
 
+if(!identical(unique(aa$date),unique(yes$date))){write.csv(aa,"stack_update.csv")}
+
 
 aa=na.omit(aa)
-aa$date=str_sub(aa$date,5,10)
+
+
 
 aa %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arrange(stake,-t)%>% datatable(options = list(autoWidth=T,
   columnDefs = list(list(width = '100px',className = 'dt-center', targets = '_all'))))
@@ -213,12 +218,34 @@ aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(
   column_spec(1:2,width="3.5cm")
 
  
-  
+ 
 
 
 
 ```
 
+
+
+----------------------------------------------------------------
+
+---------------------------------------------------------------- 
+
+
+
+### 每日主力top 5買賣分析
+
+
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+
+aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake,date)%>%top_n(5,total)) 
+
+j=unique(aa2$stake)
+
+for (x in j) {
+print(aa2 %>% filter(stake==x) %>% ggplot(aes(date,total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+labs(title=x,x="",y="")+theme(legend.position = "none")+facet_wrap(name~.,ncol=7))
+}
+
+```
 
 
 
@@ -237,7 +264,7 @@ aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(
 
  
 
-aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake,date)%>%top_n(5,total)) 
+
  
 
 # 
@@ -251,10 +278,15 @@ aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake
 #   print(aa2 %>% filter(total>1 | total<(-1))%>%filter(stake==x) %>%  arrange(total) %>% ggplot()+geom_bar(aes(date,total,fill=ifelse(total>0,"blue","red")),stat="identity")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+facet_wrap(name~.,ncol=5)+labs(title=x) +theme(legend.position = "none"))
 # }
 
-start_d=min(aa2$date)
-end_d=max(aa2$date)
+
+ 
+
+
 
 aa3=aa2 %>% group_by(stake,name) %>% summarise(t=sum(total))
+
+start_d=min(aa3$date)
+end_d=max(aa3$date)
 
 j=unique(aa3$stake) 
 
