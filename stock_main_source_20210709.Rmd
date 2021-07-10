@@ -1,11 +1,13 @@
 ---
 title: "stock_main_source_20210709"
 author: "Peter Lin"
-date: "2021/7/9"
+
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
+date: `r Sys.Date()`
 
 
 ```{css,echo = FALSE}
@@ -28,7 +30,7 @@ setwd("/home/peter/mygit/peterlovejin.github.io")
 
 library(knitr)
 library(kableExtra)
-
+library(DT)
 library(tidyverse)
 library(rvest)
 library(stringr)
@@ -83,6 +85,9 @@ full=rbind(tmp,full)
  
 dd=str_replace_all(unique(date),"/","-")
 
+ 
+ 
+
 write.csv(full,paste0("stack_",dd,".csv"))
  
  
@@ -117,7 +122,7 @@ na.omit(full) %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=
  
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=9}
 
-library(DT)
+
  
  
 
@@ -125,10 +130,10 @@ yes=read.csv("stack_update.csv",encoding = "BIG5")
 
  
 
+ 
 library(tidyverse)
 
-full$date=str_sub(full$date,5,10)
-yes$date=str_sub(yes$date,5,10)
+ 
  
  
 
@@ -213,7 +218,8 @@ print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),t
 library(kableExtra)
  
 
-aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(aa$date),"~",max(aa$date))) %>%
+
+aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(as.character(aa$date)),"~",max(as.character(aa$date)))) %>%
   kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=20) %>%
   column_spec(1:2,width="3.5cm")
 
@@ -239,10 +245,12 @@ aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(
 
 aa2=rbind(aa%>% group_by(stake,date)%>%top_n(5,desc(total)),aa%>% group_by(stake,date)%>%top_n(5,total)) 
 
+aa2=aa2 %>% arrange(stake,as.character(date))
+
 j=unique(aa2$stake)
 
 for (x in j) {
-print(aa2 %>% filter(stake==x) %>% ggplot(aes(date,total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+labs(title=x,x="",y="")+theme(legend.position = "none")+facet_wrap(name~.,ncol=7))
+print(aa2 %>% filter(stake==x) %>% ggplot(aes(as.character(date),total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+labs(title=x,x="",y="") +theme(axis.text.x = element_text(angle=20,size = 7),legend.position = "none")+facet_wrap(name~.,ncol=7))
 }
 
 ```
@@ -285,14 +293,16 @@ print(aa2 %>% filter(stake==x) %>% ggplot(aes(date,total))+geom_bar(aes(fill=ife
 
 aa3=aa2 %>% group_by(stake,name) %>% summarise(t=sum(total))
 
-start_d=min(aa3$date)
-end_d=max(aa3$date)
+ 
+
+start_d=min(as.character(aa2$date))
+end_d=max(as.character(aa2$date))
 
 j=unique(aa3$stake) 
 
 for (x in j){
 
-print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=ifelse(t>0,"blue","red")),stat="identity",position = "dodge")+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+labs(title=paste(x,"@",start_d,"~",end_d,y="",x="")) +theme(legend.position = "none")+coord_flip()) }
+print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=ifelse(t>0,"blue","red")),stat="identity",position = "dodge")+theme(axis.text.x=element_text(angle = 20,size=8))+geom_hline(yintercept = 0) +theme(legend.position = "none")+coord_flip()+labs(title=paste(x,"@",start_d,"~",end_d),y="",x="")) }
 
 
 
