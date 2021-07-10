@@ -18,7 +18,7 @@ caption {
 
 
 
-### 當日
+### 當日主力買賣總和
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=6}
 
@@ -100,9 +100,22 @@ write.csv(full,paste0("stack_",dd,".csv"))
 #aa=rbind(full,f2[,-1],bb[,-1])
 
 
-full %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=dd) %>%
+na.omit(full) %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=dd) %>%
   kable_classic( html_font = "Cambria",c("striped", "hover","condensed"),full_width=F,font_size=24) %>%
   column_spec(1:2,width="4cm")
+
+
+
+```
+
+
+
+
+--------------------------------------------------------------------- 
+
+ 
+ 
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=9}
 
 library(DT)
  
@@ -128,12 +141,15 @@ aa %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arr
 
 
 
+
 ```
+
 
 
 --------------------------------------------------------------------- 
 
-### 當日主力top 5
+
+### 當日主力top 5買賣分析
  
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=9}
 
@@ -161,7 +177,7 @@ library(lubridate)
 ---------------------------------------------------------------------
 
 
-### flipflop
+### flip plot
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
 
