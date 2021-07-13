@@ -136,7 +136,47 @@ na.omit(full) %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=
   column_spec(1:2,width="3.5cm")
 
 
-
+# 
+# 
+# url=paste0("https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=html&date=",tday,"&stockNo=",str_sub(x,1,4))
+# 
+#  
+# 
+# page=read_html(url)
+# 
+#  
+#   
+# p1=page %>% html_table()%>% .[[1]] 
+# 
+#  
+# 
+# p2=p1%>% names()
+# 
+# tt=unique(str_squish(p2))
+# 
+# names(p1)=p1[1,]
+# 
+# p1=p1[-1,]
+# p1$date=as.Date(p1$日期)
+# 
+# p1$p=as.numeric(p1$收盤價)
+# p1$h= as.numeric(p1$最高價)
+# p1$l= as.numeric(p1$最低價)
+# 
+# 
+# print(ggplot(p1)+geom_line(aes(date,h),lty=2,col="blue")+geom_line(aes(date,l),lty=2,col="red")+geom_line(aes(date,p))  +labs(title=tt,y="",x=""))
+# 
+# 
+# p1$price=scale(as.numeric(p1$收盤價))
+# 
+# p1$high=scale(as.numeric(p1$最高價))
+# p1$low=scale(as.numeric(p1$最低價))
+# p1$q=scale(as.numeric(str_remove_all(p1$成交股數,",")))
+# 
+#  
+# print(ggplot(p1)+geom_line(aes(date,high),lty=2,col="blue")+geom_line(aes(date,low),lty=2,col="red")+geom_line(aes(date,price))+geom_bar(aes(date,q),stat="identity",alpha=.3)+geom_hline(yintercept = 0)+labs(title=tt,y="",x=""))
+# 
+#   
 ```
 
 
@@ -331,7 +371,7 @@ aa2=aa2 %>% arrange(stake,as.character(date))
 j=unique(aa2$stake)
 
 for (x in j) {
-print(aa2 %>% filter(stake==x) %>% ggplot(aes(as.character(date),total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+geom_hline(yintercept=0)+labs(title=x,x="",y="") +theme(axis.text.x = element_text(angle=20,size = 7),legend.position = "none")+facet_wrap(name~.,ncol=7))
+print(aa2 %>% filter(stake==x) %>% ggplot(aes(as.character(date),total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+geom_hline(yintercept=0)+labs(title=x,x="",y="") +theme(axis.text.x = element_text(angle=90,size = 6),legend.position = "none")+facet_wrap(name~.,ncol=7))
 }
 
 ```
@@ -383,7 +423,7 @@ j=unique(aa3$stake)
 
 for (x in j){
 
-print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=ifelse(t>0,"blue","red")),stat="identity",position = "dodge")+geom_hline(yintercept=0)+theme(axis.text.x=element_text(angle = 20,size=8))+geom_hline(yintercept = 0) +theme(legend.position = "none")+coord_flip()+labs(title=paste(x,"@",start_d,"~",end_d),y="",x="")) }
+print(aa3 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,t),t,fill=ifelse(t>0,"blue","red")),stat="identity",position = "dodge")+geom_hline(yintercept=0)+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0) +theme(legend.position = "none")+coord_flip()+labs(title=paste(x,"@",start_d,"~",end_d),y="",x="")) }
 
 
 
