@@ -1,7 +1,6 @@
 ---
 title: "stock_main_source_20210709"
 author: "Peter Lin"
-
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -24,10 +23,11 @@ caption {
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=6}
 
-
+ 
+ 
 
 setwd("/home/peter/mygit/peterlovejin.github.io")
-
+ 
 library(knitr)
 library(kableExtra)
 library(DT)
