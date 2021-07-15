@@ -7,7 +7,7 @@ editor_options:
 ---
 
 date: `r Sys.Date()`
-
+time: `r Sys.time()`
 
 ```{css,echo = FALSE}
 caption {
@@ -38,8 +38,7 @@ library(quantmod)
  
 #library(devtools)
  
-x=mtcars
-write.csv(x,"mt.csv")
+ 
  
  
 #devtools::install_github("joshuaulrich/quantmod")
