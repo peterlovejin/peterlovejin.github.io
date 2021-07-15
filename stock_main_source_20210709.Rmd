@@ -23,7 +23,7 @@ caption {
 
 ```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=6}
 
- 
+library("rmarkdown")
  
 
 setwd("/home/peter/mygit/peterlovejin.github.io")
@@ -36,9 +36,10 @@ library(rvest)
 library(stringr)
 library(quantmod)
  
-library(devtools)
+#library(devtools)
  
- 
+x=mtcars
+write.csv(x,"mt.csv")
  
  
 #devtools::install_github("joshuaulrich/quantmod")
