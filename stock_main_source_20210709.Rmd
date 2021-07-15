@@ -6,7 +6,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-date: `r Sys.Date()`
 time: `r Sys.time()`
 
 ```{css,echo = FALSE}
