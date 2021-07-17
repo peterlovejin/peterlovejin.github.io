@@ -159,7 +159,7 @@ print("下期預測：")
 cat("\n")
 print(guess)
 
-nextday[c(13,16,17,19,39,44,42),]
+ 
 
  
 
@@ -230,8 +230,10 @@ cat("**********************************")
  guess=NULL
  
   for (j in 1:7){
+     lst <- sort(as.integer(nextday[as.integer(xx1[i,2:8])[j],]), index.return=TRUE, decreasing=TRUE)
+tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
  tmp=which.max(as.integer(nextday[as.integer(xx1[n,2:8])[j],]))
- guess=c(tmp,guess)}
+ guess=c(tmp,tmp2,guess)}
 
 #print(nextday)
 print("本期開獎：")  
@@ -243,7 +245,8 @@ print("下期預測：")
 cat("\n")
 print(guess)
 
-nextday[c(13,16,17,19,39,44,42),]
+
+
 
  
 
