@@ -1,0 +1,160 @@
+ 
+--
+ Title: "樂透彩"
+output: html_document
+---
+ 
+
+```{r ,echo=F,warning=F,message=F }
+ 
+library(XML)
+library(rvest)
+
+
+#library(RCurl)
+
+  
+bingo=0
+mm=0
+i=1
+ 
+c=NULL
+for (i in 1:59){
+  
+  
+ url=paste("https://www.pilio.idv.tw/lto/list.asp?indexpage=",i,"&orderby=new",sep="") 
+ 
+xx=url %>% read_html()%>% html_nodes("table.auto-style1")%>% html_nodes("tr")%>% html_nodes("td") %>%html_text()
+library(stringr)
+n=length(xx)
+
+ 
+mydate=xx[seq(4,n,3)]
+myn=xx[seq(5,n,3)]%>%str_trim("both")  
+mys=xx[seq(6,n,3)]%>%str_trim("both")
+b=data.frame(mydate,myn,mys)
+
+                                
+c=rbind(c,b)}
+
+ 
+ 
+ 
+
+library(tidyr)
+ 
+c1=c %>% separate(myn,c("v1","v2","v3","v4","v5","v6"))
+ 
+
+ 
+
+library(stringr)
+ 
+c1$mydate=as.character(c$mydate) 
+
+ 
+c1$mydate=as.Date(str_sub(c$mydate,1,10),"%Y/%m/%d")
+ 
+c1$mys=as.character(c1$mys)
+ 
+ 
+
+c11=c1[order(c1$mydate),]
+ 
+write.csv(c11,"lot.csv",row.names=F)
+ 
+ 
+read.csv("lot.csv") 
+
+for (i in 2:8) c11[,i]=as.integer(c11[,i])
+ 
+library(dplyr)
+
+
+
+
+
+ 
+tmp2=matrix(0,nrow=8,ncol=8)
+
+for (i in 1:(nrow(c11)-1 )) tmp2[c11[i,8],c11[i+1,8]]=tmp2[c11[i,8],c11[i+1,8]] +1
+
+ mtmp2=round(tmp2/rowSums(tmp2),4)
+
+dimnames(mtmp2)=list(1:8,1:8)
+
+
+   
+lastz2=as.integer(tail(c11,1)[8])
+
+
+# nextz2p: 下期號碼出現率由高而低排序
+
+nextz2p=rev(sort(mtmp2[lastz2,]))
+
+# 預測第二區下期號碼
+names(nextz2p)
+
+  
+  
+z2ordered=c()
+
+for (num in 800:2){  
+
+
+tmp2=matrix(0,nrow=8,ncol=8)
+
+
+
+for (i in 1:(nrow(c11)-1-num )) tmp2[c11[i,8],c11[i+1,8]]=tmp2[c11[i,8],c11[i+1,8]] +1
+
+ 
+ 
+mtmp2=round(tmp2/rowSums(tmp2),4)
+
+dimnames(mtmp2)=list(1:8,1:8)
+ 
+   
+lastz2=as.integer( c11[nrow(c11)-num,][8])
+ 
+ 
+
+# nextz2p: 下期號碼出現率由高而低排序
+
+nextz2p=rev(sort(mtmp2[lastz2,]))
+
+# 預測第二區下期號碼
+print(names(nextz2p))
+
+realz2= as.integer(c11[nrow(c11)-num+1,][8])
+
+z2ordered=c(z2ordered,which(names(nextz2p)==realz2))
+
+
+
+ lz2=rev(sort(table(z2ordered)))
+ 
+ print(lz2)
+ 
+ 
+ 
+ if (length(lz2)>=4) guessz2=names(lz2)[1] else guessz2=lz2[1]
+ 
+ realnz2= as.integer(c11[nrow(c11)-num+2,][8])
+ 
+ if (realnz2 %in% names(nextz2p)[as.integer(guessz2)]) bingo=bingo+1
+  mm=mm+1
+ print(paste0(mm,"--",bingo))
+
+ }
+
+
+bingo=0
+ for (i in 800:1) {if (c11[nrow(c11)-i,8] %in% sample(1:8,1)) bingo=bingo+1; print(paste0(600-i+1,"--",bingo))}
+
+
+
+
+
+```
+ 
