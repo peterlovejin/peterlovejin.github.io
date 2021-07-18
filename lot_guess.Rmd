@@ -1,14 +1,16 @@
 ---
+title: "樂透彩預測"
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
  
---
- Title: "樂透彩"
-output: html_document
----
  
+Time: `r Sys.time()`
+ 
+----------------------------------------------
+ 
+  
 
 ```{r ,echo=F,warning=F,message=F }
 
