@@ -1,6 +1,8 @@
  peterlovejin.github.io
  
 
+  [lot預測]( https://peterlovejin.github.io/lot_guess.html)
+
  [big]( https://peterlovejin.github.io/big.html)
   
   [big預測]( https://peterlovejin.github.io/big_guess.html)
