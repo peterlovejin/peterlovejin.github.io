@@ -5,6 +5,12 @@ editor_options:
   chunk_output_type: console
 ---
  
+ 
+Time: `r Sys.time()`
+ 
+ ----------------------------------------------
+ 
+ 
 
 ```{r ,echo=F,warning=F,message=F }
 
@@ -106,8 +112,12 @@ for (i in 1:n){
   
 }
 
+ 
 
-  print(table(result11)) 
+print(table(result11)) 
+
+
+print(paste("最新一期猜測結果：", tail(result11,2)[1]))
 
 cat("\n")
 cat("**********************************")   
@@ -174,6 +184,8 @@ tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
 
 
  print(table(result11)) 
+ 
+ print(paste("最新一期猜測結果：",tail(result11,2)[1]))
 
 cat("\n")
 cat("**********************************")   
