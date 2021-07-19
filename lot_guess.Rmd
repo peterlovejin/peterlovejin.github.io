@@ -127,7 +127,8 @@ for (i in 1:n){
 }
 
  table(result11) %>%kable()
-  
+ round((table(result11)/sum(table(result11)))*100,2)%>% kable() 
+ 
   print(paste("最新一期猜測結果：", tail(result11,2)[1]))
   
 cat("\n")
@@ -194,6 +195,8 @@ for (i in 1:n){
 }
 
  table(result11) %>%kable()
+ 
+   round((table(result11)/sum(table(result11)))*100,2)%>% kable()
   
   print(paste("最新一期猜測結果：", tail(result11,2)[1]))
   
@@ -270,7 +273,7 @@ tmp=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
  
 table(result11) %>% kable()
   
-  
+  round((table(result11)/sum(table(result11)))*100,2)%>% kable() 
   
   print(paste("最新一期猜測結果：", tail(result11,2)[1]))
   
@@ -349,7 +352,7 @@ tmp=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
  
   
   table(result11) %>% kable()
- 
+   round((table(result11)/sum(table(result11)))*100,2)%>% kable()
   
   print(paste("最新一期猜測結果：", tail(result11,2)[1]))
   
@@ -389,5 +392,312 @@ print(guess)
  
 
 
+---------------------------------------
+-------------------------------------
+
+
+# 週一,特別號,1
+
+```{r echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=5}
 
  
+
+library(lubridate)
+
+
+xx1$w=weekdays(as.Date(xx1$mydate))
+xx1_1=xx1 %>% filter(w=="週一")
+
+
+result11=NULL
+ 
+nextday_1=matrix(0,ncol = 8,nrow=8)
+
+xx1_1=unique(xx1_1)
+n=nrow(xx1_1)
+
+
+ 
+ 
+for (i in 1:n){
+  
+  if(i>=2){
+  nextday_1[as.integer(xx1_1[i-1,8]),as.integer(xx1_1[i,8])]=  nextday_1[as.integer(xx1_1[i-1,8]),as.integer(xx1_1[i,8])]+1
+  
+  }
+  
+  guess=NULL
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_1[as.integer(xx1_1[i,8])[j],]))
+ guess=c(tmp,guess)
+ guess=unique(guess)
+ }
+  
+   if (i>500){  result11=c(result11,sum(guess %in% as.integer(xx1_1[i+1,8])))}
+  
+
+ 
+ 
+  
+}
+
+ table(result11) %>%kable()
+ 
+  round((table(result11)/sum(table(result11)))*100,2)%>% kable()
+  
+  print(paste("最新一期猜測結果：", tail(result11,2)[1])) 
+  
+cat("\n")
+cat("**********************************")   
+ 
+  
+ guess=NULL
+ 
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_1[as.integer(xx1_1[n,8])[j],]))
+ guess=c(tmp,guess)}
+
+#print(nextday)
+print("本期開獎：")  
+print(xx1_1[n,8])
+
+guess=unique(guess)
+
+print("下期預測：")   
+cat("\n")
+print(guess)
+
+
+
+```
+
+
+
+
+# 週四,特別號,1
+
+```{r echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=5}
+
+ 
+
+library(lubridate)
+
+
+xx1_4=xx1 %>% filter(w=="週四")
+
+
+result11=NULL
+ 
+nextday_4=matrix(0,ncol = 8,nrow=8)
+
+xx1_4=unique(xx1_4)
+n=nrow(xx1_4)
+
+
+ 
+ 
+for (i in 1:n){
+  
+  if(i>=2){
+  nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]=  nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]+1
+  
+  }
+  
+  guess=NULL
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_4[as.integer(xx1_4[i,8])[j],]))
+ guess=c(tmp,guess)
+ guess=unique(guess)
+ }
+  
+   if (i>500){  result11=c(result11,sum(guess %in% as.integer(xx1_4[i+1,8])))}
+  
+
+ 
+ 
+  
+}
+
+ table(result11) %>%kable()
+ 
+  round((table(result11)/sum(table(result11)))*100,2)%>% kable()
+  
+  print(paste("最新一期猜測結果：", tail(result11,2)[1])) 
+  
+cat("\n")
+cat("**********************************")   
+ 
+  
+ guess=NULL
+ 
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_4[as.integer(xx1_4[n,8])[j],]))
+ guess=c(tmp,guess)}
+
+#print(nextday_4)
+print("本期開獎：")  
+print(xx1_4[n,8])
+
+guess=unique(guess)
+
+print("下期預測：")   
+cat("\n")
+print(guess)
+
+
+
+```
+
+
+
+
+
+
+# 週四以週一,特別號,1
+
+```{r echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=5}
+
+#  
+# 
+# library(lubridate)
+# 
+# 
+# xx1_4=xx1 %>% filter(w=="週四")
+# 
+# 
+# result11=NULL
+#  
+# nextday_4=matrix(0,ncol = 8,nrow=8)
+# 
+# xx1_4=unique(xx1_4)
+n=nrow(xx1_4)
+
+
+ 
+ 
+# for (i in 1:n){
+#   
+#   if(i>=2){
+#   nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]=  nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]+1
+#   
+#   }
+  
+  guess=NULL
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_1[as.integer(xx1_4[i,8])[j],]))
+ guess=c(tmp,guess)
+ guess=unique(guess)
+ }
+  
+   if (i>500){  result11=c(result11,sum(guess %in% as.integer(xx1_4[i+1,8])))}
+  
+
+  
+
+ table(result11) %>%kable()
+ 
+  round((table(result11)/sum(table(result11)))*100,2)%>% kable()
+  
+  print(paste("最新一期猜測結果：", tail(result11,2)[1])) 
+  
+cat("\n")
+cat("**********************************")   
+ 
+  
+ guess=NULL
+ 
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_1[as.integer(xx1_4[n,8])[j],]))
+ guess=c(tmp,guess)}
+
+#print(nextday_4)
+print("本期開獎：")  
+print(xx1_4[n,8])
+
+guess=unique(guess)
+
+print("下期預測：")   
+cat("\n")
+print(guess)
+
+
+
+```
+
+
+
+# 週一以週四,特別號,1
+
+```{r echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=5}
+
+#  
+# 
+# library(lubridate)
+# 
+# 
+# xx1_4=xx1 %>% filter(w=="週四")
+# 
+# 
+# result11=NULL
+#  
+# nextday_4=matrix(0,ncol = 8,nrow=8)
+# 
+# xx1_4=unique(xx1_4)
+n=nrow(xx1_1)
+
+
+ 
+ 
+# for (i in 1:n){
+#   
+#   if(i>=2){
+#   nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]=  nextday_4[as.integer(xx1_4[i-1,8]),as.integer(xx1_4[i,8])]+1
+#   
+#   }
+  
+  guess=NULL
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_4[as.integer(xx1_1[i,8])[j],]))
+ guess=c(tmp,guess)
+ guess=unique(guess)
+ }
+  
+   if (i>500){  result11=c(result11,sum(guess %in% as.integer(xx1_1[i+1,8])))}
+  
+
+ 
+ 
+ 
+
+ table(result11) %>%kable()
+ 
+  round((table(result11)/sum(table(result11)))*100,2)%>% kable()
+  
+  print(paste("最新一期猜測結果：", tail(result11,2)[1])) 
+  
+cat("\n")
+cat("**********************************")   
+ 
+  
+ guess=NULL
+ 
+  for (j in 1:1){
+ tmp=which.max(as.integer(nextday_4[as.integer(xx1_1[n,8])[j],]))
+ guess=c(tmp,guess)}
+
+#print(nextday_4)
+print("本期開獎：")  
+print(xx1_1[n,8])
+
+guess=unique(guess)
+
+print("下期預測：")   
+cat("\n")
+print(guess)
+
+
+ 
+
+```
+
+
