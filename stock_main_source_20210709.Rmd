@@ -27,13 +27,16 @@ library("rmarkdown")
 
 setwd("/home/peter/mygit/peterlovejin.github.io")
  
+
+#install.packages("tidyverse")
 library(knitr)
 library(kableExtra)
 library(DT)
 library(tidyverse)
 library(rvest)
 library(stringr)
-library(quantmod)
+#library(quantmod)
+library(tidyr)
  
 #library(devtools)
  

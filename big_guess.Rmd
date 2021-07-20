@@ -15,7 +15,7 @@ Time: `r Sys.time()`
  
 setwd("~/mygit/peterlovejin.github.io/")
 
- #install.packages("XML")
+ #install.packages("rvest")
  library(stringr)
 library(ggplot2)
 library(knitr)
@@ -206,17 +206,17 @@ for (i in 1:n){
   guess=NULL
   for (j in 1:7){
   lst <- sort(as.integer(nextday[as.integer(xx1[i,2:8])[j],]), index.return=TRUE, decreasing=TRUE)
-tmp=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
- tmp2=which.max(as.integer(nextday[as.integer(xx1[i,2:8])[j],]))
+ # tmp=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [1]
+ tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
  
- #tmp=which.max(as.integer(nextday[as.integer(xx1[i,2:8])[j],]))
+tmp=which.max(as.integer(nextday[as.integer(xx1[i,2:8])[j],]))
  guess=c(tmp,tmp2,guess)
- guess=unique(guess)
+
  }
-  
+   guess=unique(guess)
    if (i>1600){ result11=c(result11,sum(guess %in% as.integer(xx1[i+1,2:8])))}
   
-
+ 
  
  
   
@@ -253,9 +253,8 @@ print(guess)
 
 
 
-
  
-
+ 
  
   
  
