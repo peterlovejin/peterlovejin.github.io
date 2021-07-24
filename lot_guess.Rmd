@@ -15,6 +15,10 @@ Time: `r Sys.time()`
 ```{r ,echo=F,warning=F,message=F }
 
 setwd("~/mygit/peterlovejin.github.io/")
+# install.packages("DT")
+  # install.packages("rvest")
+  # install.packages("tidyverse")
+
 
 library("knitr")
 library(DT)
