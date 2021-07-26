@@ -66,85 +66,12 @@ write.csv(c11,"lot539.csv",row.names=F)
  
  
 mxx=read.csv("lot539.csv") 
- 
+
+
  
 ```
  
- 
- 
- 
- 
-### 單用以本期開獎獎號下期最常出現的號碼
-
-```{r echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=5}
-
-
-result11=NULL
- 
-nextday=matrix(0,ncol = 39,nrow=39)
-
-n=nrow(mxx)
-
- 
- 
-for (i in 1:n){
   
-  if(i>=2){
-  nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]=  nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]+1
-  
-  }
-  
-  guess=NULL
-  for (j in 1:5){
- tmp=which.max(as.integer(nextday[as.integer(mxx[i,2:6])[j],]))
- #  lst <- sort(as.integer(nextday[as.integer(xx1[i,2:8])[j],]), index.return=TRUE, decreasing=TRUE)
-# tmp=lapply(lst, `[`, lst$x %in% head(unique(lst$x),3))$ix [2]
-
- guess=c(tmp,guess)
- guess=unique(guess)
- }
-  
-   if (i>3500){  result11=c(result11,sum(guess %in% as.integer(mxx[i+1,2:6])))}
-  
-
- 
- 
-  
-}
-
- 
-
-print(table(result11)) 
-
-
-print(paste("最新一期猜測結果：", tail(result11,2)[1]))
-
-cat("\n")
-cat("**********************************")   
- 
-  
- guess=NULL
- 
-  for (j in 1:5){
- tmp=which.max(as.integer(nextday[as.integer(mxx[n,2:6])[j],]))
- guess=c(tmp,guess)}
-guess=unique(guess)
-#print(nextday)
-print("本期開獎：")  
-print(mxx[n,])
-
-guess=unique(guess)
-
-print("下期預測：")   
-cat("\n")
-print(guess)
-
-
-```
-
-
-
- 
  
 
 ### 單用以本期開獎獎號下期第1+2常出現的號碼
@@ -160,30 +87,40 @@ n=nrow(mxx)
 
  
  
-for (i in 1:n){
+for (i in 2:n){
+   
+   nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]=  nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]+1
+   
+   
   
-  if(i>=2){
-  nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]=  nextday[as.integer(mxx[i-1,2:6]),as.integer(mxx[i,2:6])]+1
-  
-  }
-  
+ if (i>232){ 
   guess=NULL
   for (j in 1:5){
-  tmp=which.max(as.integer(nextday[as.integer(mxx[i,2:6])[j],]))
+#   tmp=which.max(as.integer(nextday[as.integer(mxx[i,2:6])[j],]))
    lst <- sort(as.integer(nextday[as.integer(mxx[i,2:6])[j],]), index.return=TRUE, decreasing=TRUE)
-tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
+# tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
+tmp3=lapply(lst, `[`, lst$x %in% head(lst$x,39))$ix [c(1,2,39)]
 
- guess=c(tmp,tmp2,guess)
- guess=unique(guess)
+
+ guess=c(tmp3,guess)
+
+  }
+  
+
+ guess=sample(guess,5)
+
+  
+  result11=c(result11,sum(guess %in% as.integer(mxx[i+1,2:6])))}
+ 
  }
   
-   if (i>3500){  result11=c(result11,sum(guess %in% as.integer(mxx[i+1,2:6])))}
-  
 
-}
+ 
 
 
  print(table(result11)) 
+ 
+  print(prop.table(table(result11)))
  
  print(paste("最新一期猜測結果：",tail(result11,2)[1]))
 
@@ -194,27 +131,35 @@ cat("**********************************")
  guess=NULL
  
   for (j in 1:5){
-tmp=which.max(as.integer(nextday[as.integer(mxx[i,2:6])[j],]))
+#tmp=which.max(as.integer(nextday[as.integer(mxx[i,2:6])[j],]))
    lst <- sort(as.integer(nextday[as.integer(mxx[i,2:6])[j],]), index.return=TRUE, decreasing=TRUE)
-tmp2=lapply(lst, `[`, lst$x %in% head(unique(lst$x),2))$ix [2]
+   
+tmp2=lapply(lst, `[`, lst$x %in% head(lst$x,39))$ix [c(1,2,39)]
 
-guess=c(tmp,tmp2,guess)}
+guess=c(tmp2,guess)
+
+
+}
+
+guess=unique(guess)
  
+
 #print(nextday)
 print("本期開獎：")  
 print(mxx[n,])
 
-guess=unique(guess)
+ 
 
 print("下期預測：")   
 cat("\n")
 
 print(guess)
 
+guess=sample(guess,5)
+
+print(guess)
+
 
 ```
-
-
-
 
  
