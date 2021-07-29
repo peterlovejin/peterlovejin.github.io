@@ -196,7 +196,7 @@ tmp1=read_html(url) %>% html_table() %>% .[[1]]
 topic=names(tmp1)[1]
 names(tmp1)=tmp1[1,]
 tmp1=tmp1[-1,]
-tail(tmp1)
+ 
 
 
 ```
@@ -346,7 +346,7 @@ print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),t
 
 ### 2021/7/6累計至今
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=12}
 
 library(kableExtra)
  
@@ -374,7 +374,7 @@ aa %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=paste0(min(
 ### 每日主力top 5買賣分析
 
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=12}
 
 
 
@@ -407,7 +407,7 @@ print(aa2 %>% filter(stake==x) %>% ggplot(aes(as.character(date),total))+geom_ba
 ### 累計主力top 5買賣分析
 
 
-```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=7}
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=10,fig.height=9}
 
 
 
