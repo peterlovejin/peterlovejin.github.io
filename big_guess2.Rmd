@@ -32,10 +32,9 @@ library(dplyr)
  # https://www.pilio.idv.tw/ltobig/ServerJ/list.asp?indexpage=81&orderby=new
  
  
- 
 b=NULL
 c=NULL
-for (i in 1:83){
+for (i in 1:82){
 url=paste("https://www.pilio.idv.tw/ltobig/ServerJ/list.asp?indexpage=",i,"&orderby=new",sep="")
 
 xx=NULL 
@@ -174,6 +173,7 @@ cat("**********************************")
   for (j in 1:7){
      lst <- sort(as.integer(nextday[as.integer(xx1[i,2:8])[j],]), index.return=TRUE, decreasing=TRUE)
 tmp2=lapply(lst, `[`, lst$x %in% head(lst$x,49))$ix [c(6,20,43)]
+
  #tmp=which.max(as.integer(nextday[as.integer(xx1[n,2:8])[j],]))
  guess=c(tmp2,guess)}
 

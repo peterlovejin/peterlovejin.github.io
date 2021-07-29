@@ -27,7 +27,7 @@ library("rmarkdown")
 
 setwd("/home/peter/mygit/peterlovejin.github.io")
  
-
+#install.packages("kableExtra")
 #install.packages("tidyverse")
 library(knitr)
 library(kableExtra)
@@ -51,7 +51,7 @@ full=NULL
  
 
 
-  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363")
+  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471")
 
  
 
@@ -182,6 +182,24 @@ na.omit(full) %>% group_by(stake) %>% summarise(t=sum(total)) %>% kable(caption=
 ```
 
 
+公開資訊
+--------------------------------------------------------------------- 
+
+ 
+ 
+```{r ,echo=F,warning=F,message=F,error=F,fig.width=9,fig.height=9}
+
+url="https://www.twse.com.tw/exchangeReport/BFT41U?response=html&date=20210726&selectType=ALL"
+
+library(rvest)
+tmp1=read_html(url) %>% html_table() %>% .[[1]]
+topic=names(tmp1)[1]
+names(tmp1)=tmp1[1,]
+tmp1=tmp1[-1,]
+tail(tmp1)
+
+
+```
 
 
 --------------------------------------------------------------------- 
