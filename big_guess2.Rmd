@@ -139,7 +139,7 @@ for (i in 2:n){
  }
    guess=unique(guess)
    
-   guess= guess[1:8]
+   guess= guess[1:7]
    
    result11=c(result11,sum(guess %in% as.integer(xx1[i+1,2:8])))}
   
