@@ -47,11 +47,16 @@ library(tidyr)
 
 full=NULL
 
+ myview=function(x) {url2=paste0("https://goodinfo.tw/StockInfo/DayTrading.asp?STOCK_ID=",x)
+xxx=url2 %>% read_html()
+ttt=xxx %>% html_table()
+return(as.character(ttt[[11]][5,c(1,3,4,5)]))
+}
  
  
 
 
-  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2542")
+  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867")
 
  
 
@@ -65,8 +70,9 @@ stake=NULL
 date=NULL
 tmp=NULL
 
-Sys.sleep(1)
 
+Sys.sleep(1)
+ 
 url=paste0("https://tw.stock.yahoo.com/d/s/major_",i,".html")
 page=url %>% read_html(encoding="BIG5")
 
@@ -92,7 +98,9 @@ name=wp2[seq(1,120,4)]
 buy=as.integer(wp2[seq(2,120,4)])
 sell=as.integer(wp2[seq(3,120,4)])
 total=as.integer(wp2[seq(4,120,4)])
+#price=as.numeric(myview(i)[4,1])
 tmp=data.frame(stake,date,name,buy,sell,total)
+ 
  
 
 full=rbind(tmp,full)
@@ -114,7 +122,7 @@ dd=str_replace_all(unique(date),"/","-")
  
  
 
-write.csv(full,paste0("stack_",dd,".csv"))
+ write.csv(full,paste0("stack_",dd,".csv"))
  
  
 
@@ -125,7 +133,7 @@ write.csv(full,paste0("stack_",dd,".csv"))
  
 
 #f2=read.csv("D:/test2/rhandsontable/vignettes/stack_110-07-06.csv")
-
+ 
  
  
 #aa=rbind(full,f2[,-1],bb[,-1])
@@ -252,7 +260,7 @@ aa %>% group_by(stake,name) %>% summarise(t=sum(total))%>% group_by(stake)%>%arr
 library(lubridate)
 
 # 
-# 
+ # 
 # j=unique(full$stake)
 # 
 # 
@@ -279,12 +287,13 @@ library(lubridate)
 
 
 
+ 
 
 tday=format(Sys.Date(),"%Y%m%d")
 
 full1=na.omit(full) 
 j=unique(full$stake)
-
+ 
 for (x in j){
 # 
 # 
@@ -327,10 +336,23 @@ for (x in j){
 # print(ggplot(p1)+geom_line(aes(date,high),lty=2,col="blue")+geom_line(aes(date,low),lty=2,col="red")+geom_line(aes(date,price))+geom_bar(aes(date,q),stat="identity",alpha=.3)+geom_hline(yintercept = 0)+labs(title=tt,y="",x=""))
 # 
 #   
-  
 
-print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),total,fill=ifelse(total>0,"blue","red")),stat="identity",position = "dodge")+geom_hline(yintercept=0)+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+labs(title=paste(x,"@",dd),y="",x="") +theme(legend.position = "none")+coord_flip()) }
+ 
+print(x)
 
+print(str_extract(x,"[0-9L]+"))  
+
+myprice=NULL 
+ 
+myprice=myview(str_extract(x,"[0-9L]+"))
+ 
+print(myprice)
+ 
+Sys.sleep(31)
+
+print(full1 %>%filter(stake==x)  %>% ggplot()+geom_bar(aes(reorder(name,total),total,fill=ifelse(total>0,"blue","red")),stat="identity",position = "dodge")+geom_hline(yintercept=0)+theme(axis.text.x=element_text(angle = 0,size=8))+geom_hline(yintercept = 0)+labs(title=paste(x,"@",dd,"股價: ",myprice[1],"漲跌幅: ",myprice[3]),y="",x="") +theme(legend.position = "none")+coord_flip()) }
+
+ 
 
 ```
 
