@@ -259,8 +259,52 @@ print(sample(guess,6))
 
 ```
 
- 
+
+s=matrix()
+
+
+for ( i in 1:38){
+
+print("---")
+print(i)
+print(table(yet[,i]))
+}
+
+s[2,1]=1
+
+s[1]=2
+s[2]=2
+
+nrow(xx1)
+
+table(unlist(xx1[128:137,2:8]))
+
+head(xx1)
+
+matrix(0,dim=c(38,1))
+yet=matrix(0, nrow = 38, ncol = 38)
+
+1:38 %in% c(xx1[1,2:7])
+nrow(xx1)
 
 
 
+for (j in 1:38){
+n=1
+for (i in 1:138){
+
+if (!(j %in% xx1[i,2:7])) yet[j,n]=yet[j,n]+1 else n=n+1
+
+}
+}
+
+barplot(table(yet))
+
+for ( x in 1:38){
+print("------")
+print(x)
+print(table(yet[x,]))
+}
+
+sort(table(unlist(xx1[,2:7])))
 
