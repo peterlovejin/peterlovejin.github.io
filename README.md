@@ -1,4 +1,4 @@
- peterlovejin.github.io
+Peter's Data Analysis
  
 Work:
 
