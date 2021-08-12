@@ -28,7 +28,7 @@ Work:
 
 [earthquake](https://peterlovejin.github.io/earthquak.png)
 
-
+![earthquake](https://peterlovejin.github.io/earthquak.png)
 
 ==================================================================================
 
