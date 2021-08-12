@@ -1,4 +1,4 @@
- peterlovejin.github.io
+Peter's Data Analysis
  
 Work:
 
@@ -28,7 +28,7 @@ Work:
 
 [earthquake](https://peterlovejin.github.io/earthquak.png)
 
-
+![earthquake](https://peterlovejin.github.io/earthquak.png)
 
 ==================================================================================
 
