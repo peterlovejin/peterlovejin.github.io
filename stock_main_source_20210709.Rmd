@@ -56,7 +56,7 @@ return(as.character(ttt[[11]][5,c(1,3,4,5)]))
  
 
 
-  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2636","2609")
+  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2636","2609","1315")
 
  
 
@@ -338,15 +338,14 @@ for (x in j){
 #   
 
  
-print(x)
-
+ 
 print(str_extract(x,"[0-9L]+"))  
 
 myprice=NULL 
  
 myprice=myview(str_extract(x,"[0-9L]+"))
  
-print(myprice)
+ 
  
 Sys.sleep(31)
 
@@ -460,7 +459,7 @@ aa3=aa2 %>% group_by(stake,name) %>% summarise(t=sum(total))
 
 myfilter=as.integer(Sys.Date()-as.Date("2021-08-01"))*10
 
-aa3=aa3 %>% filter(t>10)
+aa3=aa3 %>% filter(abs(t)>10)
 
 start_d=min(as.character(aa2$date))
 end_d=max(as.character(aa2$date))
@@ -497,6 +496,7 @@ url="https://goodinfo.tw/StockInfo/StockIdxDetail.asp?STOCK_ID=%E5%8A%A0%E6%AC%8
 
 library(rvest)
 
+myint=NULL
 p=url %>% read_html()
 
 page=p %>% html_nodes("table") %>% html_text()
@@ -537,7 +537,7 @@ myint$price=0
 
  
 
-for (i in 1:13){
+for (i in 1:43){
 
 url2=paste0("https://goodinfo.tw/StockInfo/StockDetail.asp?STOCK_ID=",myint$index[i])
 
@@ -546,11 +546,12 @@ p=url2 %>% read_html()
 page=p %>% html_nodes("table") %>% html_text()
 
 myint$price[i]=as.numeric(str_extract(str_sub(page[13],49),"[0-9.]+"))
-Sys.sleep(21)
+Sys.sleep(sample(11:31,1))
 }
 
  
-
+ 
+ 
 
 
 ```
