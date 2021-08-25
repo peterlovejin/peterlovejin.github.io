@@ -16,7 +16,7 @@ caption {
     }
 ```
 
-
+#install.packages("kableExtra")
 
 ### 當日主力買賣總和
 
