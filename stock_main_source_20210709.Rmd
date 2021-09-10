@@ -56,9 +56,9 @@ return(as.character(ttt[[11]][5,c(1,3,4,5)]))
  
 
 
-  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929" ,"1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2636","2609","1315","2409","3176","2428","2489","5511","2834")
+  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929","1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2636","2609","1315","2409","3176","2428","2489","5511","2834","9919","2417","3702","1312","1309")
 
- 
+ my=unique(my)
 
 
 tryCatch( for (i in my){
@@ -414,7 +414,7 @@ j=unique(aa2$stake)
 #aa2=aa2 %>% filter(total>25)
 
 for (x in j) {
-print(aa2 %>% filter(stake==x) %>% ggplot(aes(as.character(date),total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+geom_hline(yintercept=0)+labs(title=x,x="",y="") +theme(axis.text.x = element_text(angle=90,size = 6),legend.position = "none")+facet_wrap(name~.,ncol=7))
+print(aa2 %>% filter(stake==x,total>20) %>% ggplot(aes(as.character(date),total))+geom_bar(aes(fill=ifelse(total>0,"blue","red")),stat="identity",position="dodge")+geom_hline(yintercept=0)+labs(title=x,x="",y="") +theme(axis.text.x = element_text(angle=90,size = 6),legend.position = "none")+facet_wrap(name~.,ncol=7))
 }
 
 ```
@@ -459,7 +459,7 @@ aa3=aa2 %>% group_by(stake,name) %>% summarise(t=sum(total))
 
 myfilter=as.integer(Sys.Date()-as.Date("2021-08-01"))*10
 
-aa3=aa3 %>% filter(abs(t)>20)
+aa3=aa3 %>% filter(abs(t)>60)
 
 start_d=min(as.character(aa2$date))
 end_d=max(as.character(aa2$date))
@@ -570,6 +570,29 @@ f=left_join(c,d,by="id")
 head(f)
 
 f %>% filter(iwant>10) %>% arrange(desc(iwant))
+
+x=read.csv("~/Downloads/abc.csv")
+
+dim(x)
+head(x)
+
+x[1,6:25]
+dim(x)
+library(ggplot2)
+for (i in 1:nrow(x)){print(ggplot(x[i,])+geom_line(aes(seq_along(x[i,6:18]),as.numeric(x[i,6:18]))))}
+
+ggplot(x)+geom_line(aes(1:20,x[1,6:25]))
+
+xx=t(x[,c(2,6:18)])
+
+yy=data.frame(xx)
+names(yy)=yy[1,]
+yy=yy[-1,]
+
+yy[,2]
+
+for (i in 1:25){
+print(ggplot(yy)+geom_line(aes(1:13,as.numeric(yy[,i])))+labs(title=names(yy)[i]))}
 
 
 ```
