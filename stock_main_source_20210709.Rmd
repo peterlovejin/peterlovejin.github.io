@@ -56,8 +56,10 @@ return(as.character(ttt[[11]][5,c(1,3,4,5)]))
  
 
 
-  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929","1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471","5521","2867","2636","2609","1315","2409","3176","2428","2489","5511","2834","9919","2417","3702","1312","1309")
+  my=c("2390","6180","1570","2727","3679","6207","2841","5410","2929","1570","8112","2363","6226","8936","8941","00715L","6246","1340","2888","1540","6205","2883","1471")
 
+  test=c("5521","2867","2636","2609","1315","2409","3176","2428","2489","5511","2834","9919","2417","3702","1312","1309")
+  
  my=unique(my)
 
 
@@ -552,32 +554,17 @@ Sys.sleep(sample(11:31,1))
 
 library(readr) 
 
-a=read.csv("~/Downloads/2.csv")
-b=read.csv("~/Documents/1.csv")
-d=read.csv("~/Downloads/3.csv")
 
-write.csv(b,"~/Downloads/1.csv")
 
 library(tidyverse)
-head(a)
-head(b)
-head(d)
-head(c)
 
-d$id=as.character(d$id)
-str(c)
-f=left_join(c,d,by="id")
-head(f)
+
 
 f %>% filter(iwant>10) %>% arrange(desc(iwant))
 
 x=read.csv("~/Downloads/abc.csv")
 
-dim(x)
-head(x)
 
-x[1,6:25]
-dim(x)
 library(ggplot2)
 for (i in 1:nrow(x)){print(ggplot(x[i,])+geom_line(aes(seq_along(x[i,6:18]),as.numeric(x[i,6:18]))))}
 
@@ -589,7 +576,7 @@ yy=data.frame(xx)
 names(yy)=yy[1,]
 yy=yy[-1,]
 
-yy[,2]
+
 
 for (i in 1:25){
 print(ggplot(yy)+geom_line(aes(1:13,as.numeric(yy[,i])))+labs(title=names(yy)[i]))}
