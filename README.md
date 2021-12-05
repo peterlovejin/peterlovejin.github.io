@@ -42,5 +42,7 @@ Personal:
 
 [wordcloud]( https://peterlovejin.github.io/WordCloud_20211205.html)
 
+[百度爬蟲]( https://peterlovejin.github.io/baidu_article_download_20200403.html)
+
 
  
